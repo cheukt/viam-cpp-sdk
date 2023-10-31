@@ -34,13 +34,14 @@ jobs:
       - uses: arduino/setup-protoc@v1
       - name: Generate build system
         run: |
-          cmake -B build -DVIAMCPPSDK_USE_DYNAMIC_PROTOS=ON -DCMAKE_PREFIX_PATH=./vcpkg/installed/x64-linux/share
       - name: Update buf
         run: |
-          cmake --build ./build --target update-buf
+          cmake -B build -DVIAMCPPSDK_USE_DYNAMIC_PROTOS=ON -DCMAKE_PREFIX_PATH=./vcpkg/installed/x64-linux/share \
+          && cmake --build ./build --target update-buf
       - name: Generate buf
         run: |
-          cmake --build ./build --target update-static-protos
+          cmake -B build -DVIAMCPPSDK_USE_DYNAMIC_PROTOS=ON -DCMAKE_PREFIX_PATH=./vcpkg/installed/x64-linux/share \
+          && cmake --build ./build --target update-static-protos
       - name: cleanup
         run: rm -rf boost/ && rm -rf vcpkg/
       - name: Add + Commit + Open PR
